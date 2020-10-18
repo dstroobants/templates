@@ -1,24 +1,49 @@
-# README
+# Rails 6 Application Template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Buid the project
 
-Things you may want to cover:
+```
+docker-compose run --no-deps web rails new . --force --database=postgresql
+sudo chown -R $USER:$USER .
+docker-compose build
+```
 
-* Ruby version
+### Connect the DB
 
-* System dependencies
+Edit `config/database.yml` and replace by the following:
 
-* Configuration
+```
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: postgres
+  password: password
+  pool: 5
 
-* Database creation
+development:
+  <<: *default
+  database: myapp_development
 
-* Database initialization
+test:
+  <<: *default
+  database: myapp_test
+```
 
-* How to run the test suite
+### Boot the app
 
-* Services (job queues, cache servers, search engines, etc.)
+`docker-compose up`
 
-* Deployment instructions
+### Create the DB
 
-* ...
+`docker-compose run web rake db:create`
+
+### Connect to the app
+
+`http://localhost:3000`
+
+### Rebuild/Reload
+
+Some changes require only `docker-compose up --build`
+
+But a full rebuild requires a re-run of `docker-compose run web bundle install` to sync changes in the Gemfile.lock to the host, followed by `docker-compose up --build`
