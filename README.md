@@ -1,3 +1,3 @@
 # Templates
 
-Dockerized applications to faciliate starting up a new project
+Dockerized applications to facilitate starting up a new project
